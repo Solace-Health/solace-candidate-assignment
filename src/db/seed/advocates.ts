@@ -1,7 +1,8 @@
+import { Advocate } from "@/app/api/advocates/IAdvocate";
 import db from "..";
 import { advocates } from "../schema";
 
-const specialties = [
+const specialties: String[] = [
   "Bipolar",
   "LGBTQ",
   "Medication/Prescribing",
@@ -37,7 +38,7 @@ const randomSpecialty = () => {
   return [random1, random2];
 };
 
-const advocateData = [
+const advocateData: Advocate[] = [
   {
     firstName: "John",
     lastName: "Doe",
