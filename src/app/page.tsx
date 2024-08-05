@@ -2,6 +2,9 @@
 
 import { useEffect, useState, ChangeEvent } from "react";
 import { Advocate } from "./types";
+import { isSearchTermFound, serachspecialties } from "./helpers";
+
+import "./page.css";
 
 export default function Home() {
 	const [advocates, setAdvocates] = useState<Array<Advocate>>([]);
@@ -19,7 +22,6 @@ export default function Home() {
 
 	const onChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const searchTerm = e.target.value;
-
 		const searchImput = document.getElementById("search-term");
 
 		if (searchImput !== null) {
@@ -27,14 +29,16 @@ export default function Home() {
 		}
 
 		console.log("filtering advocates...");
+
 		const filteredAdvocates = advocates.filter((advocate: Advocate) => {
 			return (
-				advocate.firstName.includes(searchTerm) ||
-				advocate.lastName.includes(searchTerm) ||
-				advocate.city.includes(searchTerm) ||
-				advocate.degree.includes(searchTerm) ||
-				advocate.specialties.includes(searchTerm) ||
-				advocate.yearsOfExperience.toString().includes(searchTerm)
+				isSearchTermFound(advocate.firstName, searchTerm) ||
+				isSearchTermFound(advocate.lastName, searchTerm) ||
+				isSearchTermFound(advocate.city, searchTerm) ||
+				isSearchTermFound(advocate.degree, searchTerm) ||
+				serachspecialties(advocate.specialties, searchTerm) ||
+				isSearchTermFound(advocate.yearsOfExperience.toString(), searchTerm) ||
+				isSearchTermFound(advocate.phoneNumber.toString(), searchTerm)
 			);
 		});
 
@@ -48,19 +52,19 @@ export default function Home() {
 
 	return (
 		<main style={{ margin: "24px" }}>
-			<h1>Solace Advocates</h1>
-			<br />
-			<br />
-			<div>
-				<p>Search</p>
-				<p>
-					Searching for: <span id='search-term'></span>
-				</p>
-				<input style={{ border: "1px solid black" }} onChange={onChange} />
-				<button onClick={onClick}>Reset Search</button>
+			<div className='top-section'>
+				<h1 className='top-section__title'>Solace Advocates</h1>
+				<div className='top-section__search'>
+					<p>Search</p>
+					<p>
+						Searching for: <span id='search-term'></span>
+					</p>
+					<input style={{ border: "1px solid black" }} onChange={onChange} />
+					<button className='top-section__reset-button' onClick={onClick}>
+						Reset Search
+					</button>
+				</div>
 			</div>
-			<br />
-			<br />
 			<table>
 				<thead>
 					<tr>

@@ -1,0 +1,17 @@
+.top-section__title,
+.top-section__search {
+	margin-bottom: 2rem;
+}
+
+.top-section__reset-button {
+	margin-left: 1rem;
+	cursor: pointer;
+	background: grey;
+	padding: 0.2rem 0.5rem;
+	border-radius: 3px;
+}
+
+.top-section__reset-button:hover {
+	background: rgb(51, 51, 51);
+	color: white;
+}
