@@ -52,9 +52,7 @@ export default function Home() {
   return (
     <main style={{ margin: '24px' }}>
       <h1>Solace Advocates</h1>
-      <br />
-      <br />
-      <div>
+      <div className='mt-11'>
         <p>Search</p>
         <p>
           Searching for: <span id='search-term'></span>
@@ -63,7 +61,12 @@ export default function Home() {
           style={{ border: '1px solid black' }}
           onChange={(e) => handleSearch(e.target.value)}
         />
-        <button onClick={onClick}>Reset Search</button>
+        <button
+          className='ml-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'
+          onClick={onClick}
+        >
+          Reset Search
+        </button>
       </div>
       <br />
       <br />
