@@ -8,7 +8,7 @@ interface Advocate {
   city: string;
   degree: string;
   specialties: string[];
-  yearsOfExperience: string;
+  yearsOfExperience: number;
   phoneNumber: string;
 }
 
@@ -26,9 +26,7 @@ export default function Home() {
     });
   }, []);
 
-  const onChange = (e) => {
-    const searchTerm = e.target.value;
-
+  const handleSearch = (searchTerm: string) => {
     document.getElementById('search-term').innerHTML = searchTerm;
 
     console.log('filtering advocates...');
@@ -39,7 +37,7 @@ export default function Home() {
         advocate.city.includes(searchTerm) ||
         advocate.degree.includes(searchTerm) ||
         advocate.specialties.includes(searchTerm) ||
-        advocate.yearsOfExperience.includes(searchTerm)
+        advocate.yearsOfExperience === Number(searchTerm)
       );
     });
 
@@ -61,7 +59,10 @@ export default function Home() {
         <p>
           Searching for: <span id='search-term'></span>
         </p>
-        <input style={{ border: '1px solid black' }} onChange={onChange} />
+        <input
+          style={{ border: '1px solid black' }}
+          onChange={(e) => handleSearch(e.target.value)}
+        />
         <button onClick={onClick}>Reset Search</button>
       </div>
       <br />
