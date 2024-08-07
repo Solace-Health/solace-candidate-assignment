@@ -27,7 +27,6 @@ export default function Home() {
       const response = await fetch('/api/advocates');
       const jsonResponse = await response.json();
       setAdvocates(jsonResponse.data);
-      setFilteredAdvocates(jsonResponse.data);
     } catch (e) {}
   };
 
@@ -50,7 +49,7 @@ export default function Home() {
           <th>Phone Number</th>
         </thead>
         <tbody>
-          {filteredAdvocates.map((advocate, idx) => {
+          {advocates.map((advocate, idx) => {
             return (
               <tr key={idx}>
                 <td>{advocate.firstName}</td>
