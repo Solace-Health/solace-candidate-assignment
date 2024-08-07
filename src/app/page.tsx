@@ -1,6 +1,7 @@
 'use client';
 
 import { Header } from '@/app/components/Header';
+import { Spinner } from '@/app/components/Spinner';
 import { Table } from '@/app/components/Table';
 import { Advocate } from '@/app/lib/types';
 import { useEffect, useState } from 'react';
@@ -35,7 +36,8 @@ export default function Home() {
         <Header />
       </div>
       <div className='mt-8'>
-        <Table advocates={advocates} />
+        {isLoading ? <Spinner /> : <Table advocates={advocates} />}
+        {hasError && <p className='text-red-700'>Something went rong</p>}
       </div>
     </main>
   );
