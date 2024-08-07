@@ -14,8 +14,9 @@ interface Advocate {
 }
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [hasError, setHasError] = useState<boolean>(false);
   const [advocates, setAdvocates] = useState<Advocate[]>([]);
-  const [filteredAdvocates, setFilteredAdvocates] = useState<Advocate[]>([]);
 
   useEffect(() => {
     console.log('fetching advocates...');
@@ -23,11 +24,16 @@ export default function Home() {
   }, []);
 
   const fetchAdvocates = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch('/api/advocates');
       const jsonResponse = await response.json();
       setAdvocates(jsonResponse.data);
-    } catch (e) {}
+    } catch (e) {
+      setHasError(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
