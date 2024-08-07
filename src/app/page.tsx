@@ -34,9 +34,9 @@ export default function Home() {
       <div className='mt-11'>
         <Header />
       </div>
-      <br />
-      <br />
-      <Table advocates={advocates} />
+      <div className='mt-8'>
+        <Table advocates={advocates} />
+      </div>
     </main>
   );
 }
