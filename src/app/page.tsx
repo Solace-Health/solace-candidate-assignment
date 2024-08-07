@@ -27,34 +27,11 @@ export default function Home() {
     });
   }, []);
 
-  const handleSearch = (searchTerm: string) => {
-    document.getElementById('search-term').innerHTML = searchTerm;
-
-    console.log('filtering advocates...');
-    const filteredAdvocates = advocates.filter((advocate) => {
-      return (
-        advocate.firstName.includes(searchTerm) ||
-        advocate.lastName.includes(searchTerm) ||
-        advocate.city.includes(searchTerm) ||
-        advocate.degree.includes(searchTerm) ||
-        advocate.specialties.includes(searchTerm) ||
-        advocate.yearsOfExperience === Number(searchTerm)
-      );
-    });
-
-    setFilteredAdvocates(filteredAdvocates);
-  };
-
-  const onClick = () => {
-    console.log(advocates);
-    setFilteredAdvocates(advocates);
-  };
-
   return (
     <main style={{ margin: '24px' }}>
       <h1>Solace Advocates</h1>
       <div className='mt-11'>
-        <Header onClick={onClick} handleSearch={handleSearch} />
+        <Header />
       </div>
       <br />
       <br />
