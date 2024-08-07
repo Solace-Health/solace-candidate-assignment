@@ -1,17 +1,8 @@
 'use client';
 
 import { Header } from '@/app/components/Header';
+import { Advocate } from '@/app/lib/types';
 import { useEffect, useState } from 'react';
-
-interface Advocate {
-  firstName: string;
-  lastName: string;
-  city: string;
-  degree: string;
-  specialties: string[];
-  yearsOfExperience: number;
-  phoneNumber: string;
-}
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
