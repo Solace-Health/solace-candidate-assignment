@@ -1,6 +1,6 @@
 'use client';
 
-import { Header } from '@/app/components/Header';
+import { SearchBar } from '@/app/components/SearchBar';
 import { Spinner } from '@/app/components/Spinner';
 import { Table } from '@/app/components/Table';
 import { Advocate } from '@/app/lib/types';
@@ -41,7 +41,7 @@ export default function Home() {
     <main style={{ margin: '24px' }}>
       <h1>Solace Advocates</h1>
       <div className='mt-11'>
-        <Header />
+        <SearchBar />
       </div>
       <div className='mt-8'>
         {isLoading ? <Spinner /> : <Table advocates={advocates} />}
