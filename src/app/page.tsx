@@ -1,5 +1,6 @@
 'use client';
 
+import { Header } from '@/app/components/Header';
 import { SearchBar } from '@/app/components/SearchBar';
 import { Spinner } from '@/app/components/Spinner';
 import { Table } from '@/app/components/Table';
@@ -39,7 +40,7 @@ export default function Home() {
 
   return (
     <main style={{ margin: '24px' }}>
-      <h1>Solace Advocates</h1>
+      <Header />
       <div className='mt-11'>
         <SearchBar />
       </div>
