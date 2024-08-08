@@ -1,91 +1,53 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { Header } from '@/app/components/Header';
+import { SearchBar } from '@/app/components/SearchBar';
+import { Spinner } from '@/app/components/Spinner';
+import { Table } from '@/app/components/Table';
+import { Advocate } from '@/app/lib/types';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
-  const [advocates, setAdvocates] = useState([]);
-  const [filteredAdvocates, setFilteredAdvocates] = useState([]);
+  const searchParams = useSearchParams();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [hasError, setHasError] = useState<boolean>(false);
+  const [advocates, setAdvocates] = useState<Advocate[]>([]);
+
+  const searchTerm = searchParams.get('search');
 
   useEffect(() => {
-    console.log("fetching advocates...");
-    fetch("/api/advocates").then((response) => {
-      response.json().then((jsonResponse) => {
-        setAdvocates(jsonResponse.data);
-        setFilteredAdvocates(jsonResponse.data);
-      });
-    });
-  }, []);
+    console.log('fetching advocates...', searchTerm);
+    fetchAdvocates();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm]);
 
-  const onChange = (e) => {
-    const searchTerm = e.target.value;
-
-    document.getElementById("search-term").innerHTML = searchTerm;
-
-    console.log("filtering advocates...");
-    const filteredAdvocates = advocates.filter((advocate) => {
-      return (
-        advocate.firstName.includes(searchTerm) ||
-        advocate.lastName.includes(searchTerm) ||
-        advocate.city.includes(searchTerm) ||
-        advocate.degree.includes(searchTerm) ||
-        advocate.specialties.includes(searchTerm) ||
-        advocate.yearsOfExperience.includes(searchTerm)
-      );
-    });
-
-    setFilteredAdvocates(filteredAdvocates);
-  };
-
-  const onClick = () => {
-    console.log(advocates);
-    setFilteredAdvocates(advocates);
+  const fetchAdvocates = async () => {
+    const query = searchTerm ? `?search=${searchTerm}` : '';
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/api/advocates${query}`);
+      const jsonResponse = await response.json();
+      setAdvocates(jsonResponse.data);
+      setHasError(false);
+    } catch (e) {
+      setHasError(true);
+      setAdvocates([]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <main style={{ margin: "24px" }}>
-      <h1>Solace Advocates</h1>
-      <br />
-      <br />
-      <div>
-        <p>Search</p>
-        <p>
-          Searching for: <span id="search-term"></span>
-        </p>
-        <input style={{ border: "1px solid black" }} onChange={onChange} />
-        <button onClick={onClick}>Reset Search</button>
+    <main style={{ margin: '24px' }}>
+      <Header />
+      <div className='mt-11'>
+        <SearchBar />
       </div>
-      <br />
-      <br />
-      <table>
-        <thead>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>City</th>
-          <th>Degree</th>
-          <th>Specialties</th>
-          <th>Years of Experience</th>
-          <th>Phone Number</th>
-        </thead>
-        <tbody>
-          {filteredAdvocates.map((advocate) => {
-            return (
-              <tr>
-                <td>{advocate.firstName}</td>
-                <td>{advocate.lastName}</td>
-                <td>{advocate.city}</td>
-                <td>{advocate.degree}</td>
-                <td>
-                  {advocate.specialties.map((s) => (
-                    <div>{s}</div>
-                  ))}
-                </td>
-                <td>{advocate.yearsOfExperience}</td>
-                <td>{advocate.phoneNumber}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className='mt-8'>
+        {isLoading ? <Spinner /> : <Table advocates={advocates} />}
+        {hasError && <p className='text-red-700'>Something went wrong</p>}
+      </div>
     </main>
   );
 }
